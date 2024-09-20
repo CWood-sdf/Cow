@@ -1,4 +1,5 @@
 ﻿var i = 0;
+var nums = [];
 var width, height;
 class Cow {
     constructor() {
@@ -82,7 +83,13 @@ class Cow {
         } else {
             this.acceleration.y = this.bouyancy;
         }
-        this.acceleration.x = (p.noise(this.z) - 0.5) / 10;
+        nums.push(p.noise(this.z));
+        console.log();
+        var avg = nums.reduce((l, r) => l + r, 0) / nums.length;
+        while (nums.length > 500) {
+            nums.shift();
+        }
+        this.acceleration.x = (nums[nums.length - 1] - avg) / 10;
         this.pos.add(this.velocity);
         this.velocity.add(this.acceleration);
         this.z += 0.01;
